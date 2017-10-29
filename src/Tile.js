@@ -6,7 +6,7 @@ class Tile extends Component {
   render() {
     const { number } = this.props;
     return (
-      <div className="tile" style={styles[number]}>
+      <div className="tile tile-new" style={styles[number]}>
         {number}
       </div>
     );

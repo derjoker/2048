@@ -8,11 +8,13 @@ class Grid extends Component {
     const { cells } = this.props;
     return (
       <div style={style.grid}>
-        {cells.map((number, index) => (
-          <div key={index} style={style.cell}>
-            <Tile number={number} />
-          </div>
-        ))}
+        {Array(16)
+          .fill(0)
+          .map((_, index) => (
+            <div key={index} style={style.cell}>
+              <Tile number={cells[index]} />
+            </div>
+          ))}
       </div>
     );
   }
@@ -43,9 +45,7 @@ Grid.propTypes = {
 };
 
 Grid.defaultProps = {
-  cells: Array(16)
-    .fill(0)
-    .map((number, index) => Math.pow(2, index + 1)),
+  cells: [2],
 };
 
 export default Grid;
