@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import Tile from './Tile';
 
 class Grid extends Component {
   render() {
+    const { cells } = this.props;
     return (
       <div style={style.grid}>
-        {Array(16)
-          .fill(0)
-          .map((number, index) => <div key={index} style={style.cell} />)}
+        {cells.map((number, index) => (
+          <div key={index} style={style.cell}>
+            <Tile number={number} />
+          </div>
+        ))}
       </div>
     );
   }
@@ -30,6 +36,16 @@ const style = {
     background: 'rgba(238, 228, 218, .35)', // #eee4da
     borderRadius: '3px',
   },
+};
+
+Grid.propTypes = {
+  cells: PropTypes.array,
+};
+
+Grid.defaultProps = {
+  cells: Array(16)
+    .fill(0)
+    .map((number, index) => Math.pow(2, index + 1)),
 };
 
 export default Grid;
