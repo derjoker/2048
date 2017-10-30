@@ -6,7 +6,12 @@
   line-height: 106.25px;
   text-align: center;
   font-weight: bold;
+  /* transition: 100ms ease-in-out; */
 }
+
+/* .tile:hover {
+  margin-left: 363.75px;
+} */
 
 @keyframes appear {
   0% {
