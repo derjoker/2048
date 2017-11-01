@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { random } from 'lodash';
 
 import Cell from './cell';
 import Grid from './Grid';
@@ -13,7 +14,7 @@ class Game extends Component {
 
   componentWillMount() {
     this.setState({
-      cells: [new Cell({ x: 3, y: 1 }, 2048)],
+      cells: [new Cell({ x: random(3), y: random(3) }, 2 * random(1, 2))],
     });
     window.addEventListener('keydown', event => {
       const map = {
