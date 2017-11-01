@@ -4,58 +4,8 @@ import PropTypes from 'prop-types';
 import Tile from './Tile';
 
 class Grid extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cells: this.props.cells,
-    };
-  }
-
-  componentWillMount() {
-    window.addEventListener('keydown', event => {
-      const map = {
-        38: 1, // Up
-        39: 2, // Right
-        40: 3, // Down
-        37: 4, // Left
-      };
-      console.log(event.keyCode);
-      if (map[event.keyCode]) {
-        event.preventDefault();
-        this.setState({
-          cells: this.state.cells.map(cell => {
-            if (map[event.keyCode] === 1) {
-              return {
-                ...cell,
-                y: 0,
-              };
-            }
-            if (map[event.keyCode] === 2) {
-              return {
-                ...cell,
-                x: 3,
-              };
-            }
-            if (map[event.keyCode] === 3) {
-              return {
-                ...cell,
-                y: 3,
-              };
-            }
-            if (map[event.keyCode] === 4) {
-              return {
-                ...cell,
-                x: 0,
-              };
-            }
-          }),
-        });
-      }
-    });
-  }
-
   render() {
-    const { cells } = this.state;
+    const { cells } = this.props;
     return (
       <div style={style.grid}>
         <div style={{ position: 'absolute' }}>
@@ -97,7 +47,7 @@ Grid.propTypes = {
 };
 
 Grid.defaultProps = {
-  cells: [{ x: 0, y: 0, value: 2 }],
+  cells: [],
 };
 
 export default Grid;
