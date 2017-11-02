@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { range } from 'lodash';
 
 import Tile from './Tile';
 
@@ -9,9 +10,7 @@ class Grid extends Component {
     return (
       <div style={style.grid}>
         <div style={{ position: 'absolute' }}>
-          {Array(16)
-            .fill(null)
-            .map((_, index) => <div key={index} style={style.cell} />)}
+          {range(16).map((_, index) => <div key={index} style={style.cell} />)}
         </div>
         <div style={{ position: 'absolute', top: '15px', left: '15px' }}>
           {cells.map((cell, index) => <Tile key={index} cell={cell} />)}
