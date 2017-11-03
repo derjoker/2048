@@ -1,71 +1,42 @@
-import React, { Component } from 'react';
-import { random } from 'lodash';
+import { map, range, sample } from 'lodash';
 
-import Cell from './cell';
-import Grid from './Grid';
+export default class Game {
+  constructor(size = 4, cells = {}, step = 0) {
+    this.size = size;
+    this.cells = cells;
+    this.step = step;
+  }
 
-class Game extends Component {
-  constructor() {
-    super();
-    this.state = {
-      cells: [],
+  tiles() {
+    return map(this.cells, (cell, key) => ({
+      id: cell.id,
+      x: Math.floor(key / this.size),
+      y: key % this.size,
+      value: cell.value,
+    }));
+  }
+
+  indexes() {
+    return range(this.size ** 2).filter(index => !this.cells[index]);
+  }
+
+  init() {
+    this.step = 0;
+    this.cells = {};
+    this.next();
+    this.next();
+  }
+
+  move() {}
+
+  next() {
+    const indexes = this.indexes();
+    const index = sample(indexes);
+    const value = sample([2, 4]);
+    this.cells[index] = {
+      id: this.step,
+      value,
     };
-  }
-
-  componentWillMount() {
-    this.setState({
-      cells: [new Cell({ x: random(3), y: random(3) }, 2 * random(1, 2))],
-    });
-    window.addEventListener('keydown', event => {
-      const map = {
-        38: 1, // Up
-        39: 2, // Right
-        40: 3, // Down
-        37: 4, // Left
-      };
-      console.log(event.keyCode);
-      if (map[event.keyCode]) {
-        event.preventDefault();
-        this.setState({
-          cells: this.state.cells.map(cell => {
-            if (map[event.keyCode] === 1) {
-              return {
-                ...cell,
-                y: 0,
-              };
-            }
-            if (map[event.keyCode] === 2) {
-              return {
-                ...cell,
-                x: 3,
-              };
-            }
-            if (map[event.keyCode] === 3) {
-              return {
-                ...cell,
-                y: 3,
-              };
-            }
-            if (map[event.keyCode] === 4) {
-              return {
-                ...cell,
-                x: 0,
-              };
-            }
-          }),
-        });
-      }
-    });
-  }
-
-  render() {
-    const { cells } = this.state;
-    return (
-      <div>
-        <Grid cells={cells} />
-      </div>
-    );
+    this.step += 1;
   }
 }
-
-export default Game;
