@@ -10,7 +10,7 @@ class Board extends Component {
     const game = new Game();
     game.init();
     this.state = {
-      cells: game.tiles(),
+      tiles: game.tiles(),
     };
   }
 
@@ -26,7 +26,7 @@ class Board extends Component {
       if (map[event.keyCode]) {
         event.preventDefault();
         this.setState({
-          cells: this.state.cells.map(cell => {
+          tiles: this.state.tiles.map(cell => {
             if (map[event.keyCode] === 1) {
               return {
                 ...cell,
@@ -58,10 +58,10 @@ class Board extends Component {
   }
 
   render() {
-    const { cells } = this.state;
+    const { tiles } = this.state;
     return (
       <div>
-        <Grid cells={cells} />
+        <Grid tiles={tiles} />
       </div>
     );
   }

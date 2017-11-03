@@ -6,14 +6,14 @@ import Tile from './Tile';
 
 class Grid extends Component {
   render() {
-    const { cells } = this.props;
+    const { tiles } = this.props;
     return (
       <div style={style.grid}>
         <div style={{ position: 'absolute' }}>
           {range(16).map((_, index) => <div key={index} style={style.cell} />)}
         </div>
         <div style={{ position: 'absolute', top: '15px', left: '15px' }}>
-          {cells.map((cell, index) => <Tile key={index} cell={cell} />)}
+          {tiles.map(tile => <Tile key={tile.id} tile={tile} />)}
         </div>
       </div>
     );
@@ -42,11 +42,11 @@ const style = {
 };
 
 Grid.propTypes = {
-  cells: PropTypes.array,
+  tiles: PropTypes.array,
 };
 
 Grid.defaultProps = {
-  cells: [],
+  tiles: [],
 };
 
 export default Grid;

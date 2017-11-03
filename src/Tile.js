@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import './Tile.css';
 
 class Tile extends Component {
-  getStyle(cell) {
+  getStyle(tile) {
     const basic = {
       2: {
         fontSize: '55px',
@@ -65,23 +66,24 @@ class Tile extends Component {
       },
     };
     return {
-      ...(basic[cell.value] || basic.super),
-      left: `${cell.x * (106.25 + 15)}px`,
-      top: `${cell.y * (106.25 + 15)}px`,
+      ...(basic[tile.value] || basic.super),
+      left: `${tile.x * (106.25 + 15)}px`,
+      top: `${tile.y * (106.25 + 15)}px`,
     };
   }
 
   render() {
-    const { cell } = this.props;
+    const { tile } = this.props;
     return (
-      <div
-        className={cell.previousPosition ? 'tile' : 'tile tile-new'}
-        style={this.getStyle(cell)}
-      >
-        {cell.value}
+      <div className="tile" style={this.getStyle(tile)}>
+        {tile.value}
       </div>
     );
   }
 }
+
+Tile.propTypes = {
+  tile: PropTypes.object,
+};
 
 export default Tile;

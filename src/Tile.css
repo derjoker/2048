@@ -6,6 +6,7 @@
   line-height: 106.25px;
   text-align: center;
   font-weight: bold;
+  animation: appear 200ms ease 100ms;
   transition: 100ms ease-in-out;
 }
 
@@ -19,8 +20,4 @@
     transform: scale(1);
     opacity: 1;
   }
-}
-
-.tile-new {
-  animation: appear 200ms ease 100ms;
 }
