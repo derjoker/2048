@@ -67,8 +67,8 @@ class Tile extends Component {
     };
     return {
       ...(basic[tile.value] || basic.super),
-      left: `${tile.x * (106.25 + 15)}px`,
-      top: `${tile.y * (106.25 + 15)}px`,
+      left: `${tile.y * (106.25 + 15)}px`,
+      top: `${tile.x * (106.25 + 15)}px`,
     };
   }
 

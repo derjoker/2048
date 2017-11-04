@@ -2,56 +2,32 @@ import React, { Component } from 'react';
 
 import Grid from './Grid';
 
-import Game from './game';
+import Game, { DIRECTION } from './game';
 
 class Board extends Component {
   constructor() {
     super();
-    const game = new Game();
-    game.init();
+    this.game = new Game();
+    this.game.init();
     this.state = {
-      tiles: game.tiles(),
+      tiles: this.game.tiles(),
     };
   }
 
   componentWillMount() {
     window.addEventListener('keydown', event => {
       const map = {
-        38: 1, // Up
-        39: 2, // Right
-        40: 3, // Down
-        37: 4, // Left
+        38: DIRECTION.UP,
+        39: DIRECTION.RIGHT,
+        40: DIRECTION.DOWN,
+        37: DIRECTION.LEFT,
       };
-      console.log(event.keyCode);
-      if (map[event.keyCode]) {
+      const direction = map[event.keyCode];
+      if (direction) {
         event.preventDefault();
+        this.game.move(direction);
         this.setState({
-          tiles: this.state.tiles.map(cell => {
-            if (map[event.keyCode] === 1) {
-              return {
-                ...cell,
-                y: 0,
-              };
-            }
-            if (map[event.keyCode] === 2) {
-              return {
-                ...cell,
-                x: 3,
-              };
-            }
-            if (map[event.keyCode] === 3) {
-              return {
-                ...cell,
-                y: 3,
-              };
-            }
-            if (map[event.keyCode] === 4) {
-              return {
-                ...cell,
-                x: 0,
-              };
-            }
-          }),
+          tiles: this.game.tiles(),
         });
       }
     });

@@ -1,4 +1,4 @@
-import Game from './game';
+import Game, { merge } from './game';
 
 describe('Game', () => {
   it('constructor', () => {
@@ -28,5 +28,14 @@ describe('Game', () => {
 
     game.init();
     expect(Object.keys(game.cells).length).toBe(2);
+  });
+});
+
+describe('merge', () => {
+  it('merge', () => {
+    expect(merge([{ value: 2 }, { value: 4 }, { value: 4 }])).toEqual([
+      { value: 2 },
+      { value: 8 },
+    ]);
   });
 });

@@ -1,4 +1,28 @@
-import { map, range, sample } from 'lodash';
+import { map, range, sample, compact, flatten } from 'lodash';
+
+import traversals from './traversals';
+
+export const DIRECTION = {
+  UP: 1,
+  RIGHT: 2,
+  DOWN: 3,
+  LEFT: 4,
+};
+
+export function merge(array) {
+  let ret = [];
+  for (let i = 0; i < array.length; i++) {
+    const next = array[i + 1];
+    if (next && next.value === array[i].value) {
+      array[i].value = 2 * array[i].value;
+      ret.push(array[i]);
+      i++;
+    } else {
+      ret.push(array[i]);
+    }
+  }
+  return ret;
+}
 
 export default class Game {
   constructor(size = 4, cells = {}, step = 0) {
@@ -27,7 +51,27 @@ export default class Game {
     this.next();
   }
 
-  move() {}
+  move(direction) {
+    const _traversals = traversals(this.size, direction);
+    const tmp = compact(
+      flatten(
+        _traversals
+          .map(traversal => compact(traversal.map(index => this.cells[index])))
+          .map(merge)
+          .map((traversal, i) =>
+            traversal.map((cell, j) => ({
+              ...cell,
+              index: _traversals[i][j],
+            }))
+          )
+      )
+    );
+    this.cells = {};
+    tmp.forEach(cell => (this.cells[cell.index] = cell));
+    this.next();
+    console.log(_traversals);
+    console.log(tmp);
+  }
 
   next() {
     const indexes = this.indexes();

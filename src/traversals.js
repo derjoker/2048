@@ -11,5 +11,7 @@ export default function traversals(size, direction) {
       return range(size).map(y => reverse(range(size).map(x => x * size + y)));
     case DIRECTION.LEFT:
       return range(size).map(x => range(size).map(y => x * size + y));
+    default:
+      return [];
   }
 }
