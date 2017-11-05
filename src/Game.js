@@ -12,14 +12,13 @@ export const DIRECTION = {
 export function merge(array) {
   let ret = [];
   for (let i = 0; i < array.length; i++) {
-    const next = array[i + 1];
-    if (next && next.value === array[i].value) {
-      array[i].value = 2 * array[i].value;
-      ret.push(array[i]);
+    const curr = array[i],
+      next = array[i + 1];
+    if (next && next.value === curr.value) {
+      curr.value = 2 * curr.value;
       i++;
-    } else {
-      ret.push(array[i]);
     }
+    ret.push(curr);
   }
   return ret;
 }
