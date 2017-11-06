@@ -1,4 +1,4 @@
-import { map, range, sample, compact, flatten } from 'lodash';
+import { map, range, sample, compact, flatten, sortBy } from 'lodash';
 
 import traversals from './traversals';
 
@@ -31,12 +31,15 @@ export default class Game {
   }
 
   tiles() {
-    return map(this.cells, (cell, key) => ({
-      id: cell.id,
-      x: Math.floor(key / this.size),
-      y: key % this.size,
-      value: cell.value,
-    }));
+    return sortBy(
+      map(this.cells, (cell, key) => ({
+        id: cell.id,
+        x: Math.floor(key / this.size),
+        y: key % this.size,
+        value: cell.value,
+      })),
+      'id'
+    );
   }
 
   indexes() {
@@ -68,8 +71,6 @@ export default class Game {
     this.cells = {};
     tmp.forEach(cell => (this.cells[cell.index] = cell));
     this.next();
-    console.log(_traversals);
-    console.log(tmp);
   }
 
   next() {
