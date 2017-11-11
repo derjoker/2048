@@ -8,7 +8,7 @@ class Board extends Component {
   constructor() {
     super();
     this.game = new Game();
-    this.game.init();
+    this.game.start();
     this.state = {
       tiles: this.game.tiles(),
     };
@@ -29,6 +29,12 @@ class Board extends Component {
         this.setState({
           tiles: this.game.tiles(),
         });
+        setTimeout(() => {
+          this.game.next();
+          this.setState({
+            tiles: this.game.tiles(),
+          });
+        }, 200);
       }
     });
   }

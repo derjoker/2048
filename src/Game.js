@@ -46,7 +46,7 @@ export default class Game {
     return range(this.size ** 2).filter(index => !this.cells[index]);
   }
 
-  init() {
+  start() {
     this.step = 0;
     this.cells = {};
     this.next();
@@ -70,7 +70,6 @@ export default class Game {
     );
     this.cells = {};
     tmp.forEach(cell => (this.cells[cell.index] = cell));
-    this.next();
   }
 
   next() {
