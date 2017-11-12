@@ -1,12 +1,12 @@
-import Game, { merge } from './game';
+import Game, { move } from './game';
 
 describe('Game', () => {
   it('constructor', () => {
     const size = 3,
       cells = {
-        0: { id: 3, value: 2 },
-        5: { id: 2, value: 4 },
-        7: { id: 1, value: 16 },
+        0: { ids: [3], value: 2 },
+        5: { ids: [2], value: 4 },
+        7: { ids: [1], value: 16 },
       };
     const game = new Game(size, cells);
     expect(game.size).toEqual(size);
@@ -31,11 +31,17 @@ describe('Game', () => {
   });
 });
 
-describe('merge', () => {
-  it('merge', () => {
-    expect(merge([{ value: 2 }, { value: 4 }, { value: 4 }])).toEqual([
-      { value: 2 },
-      { value: 8 },
+describe('helper', () => {
+  it('move', () => {
+    expect(
+      move([
+        { ids: [1], value: 2 },
+        { ids: [2], value: 4 },
+        { ids: [3], value: 4 },
+      ])
+    ).toEqual([
+      { ids: [1], value: 2, name: 'tile' },
+      { ids: [2, 3], value: 4, name: 'tile' },
     ]);
   });
 });

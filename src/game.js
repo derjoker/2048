@@ -9,16 +9,22 @@ export const DIRECTION = {
   LEFT: 4,
 };
 
-export function merge(array) {
+export function move(tiles) {
   let ret = [];
-  for (let i = 0; i < array.length; i++) {
-    const curr = array[i],
-      next = array[i + 1];
-    if (next && next.value === curr.value) {
-      curr.value = 2 * curr.value;
+  for (let i = 0; i < tiles.length; i++) {
+    const curr = tiles[i],
+      ids = curr.ids,
+      value = curr.value,
+      next = tiles[i + 1];
+    if (next && next.value === value) {
+      ids.push(...next.ids);
       i++;
     }
-    ret.push(curr);
+    ret.push({
+      ids,
+      value,
+      name: 'tile',
+    });
   }
   return ret;
 }
@@ -32,12 +38,17 @@ export default class Game {
 
   tiles() {
     return sortBy(
-      map(this.cells, (cell, key) => ({
-        id: cell.id,
-        x: Math.floor(key / this.size),
-        y: key % this.size,
-        value: cell.value,
-      })),
+      flatten(
+        map(this.cells, (cell, key) =>
+          cell.ids.map(id => ({
+            id,
+            x: Math.floor(key / this.size),
+            y: key % this.size,
+            value: cell.value,
+            name: cell.name,
+          }))
+        )
+      ),
       'id'
     );
   }
@@ -59,7 +70,7 @@ export default class Game {
       flatten(
         _traversals
           .map(traversal => compact(traversal.map(index => this.cells[index])))
-          .map(merge)
+          .map(move)
           .map((traversal, i) =>
             traversal.map((cell, j) => ({
               ...cell,
@@ -72,14 +83,29 @@ export default class Game {
     tmp.forEach(cell => (this.cells[cell.index] = cell));
   }
 
+  merge() {
+    Object.keys(this.cells).forEach(key => {
+      const cell = this.cells[key],
+        ids = cell.ids;
+      if (ids.length > 1) {
+        cell.value = cell.value * ids.length;
+        cell.ids = [ids[0]];
+        cell.name = 'tile merge';
+      } else {
+        cell.name = 'tile';
+      }
+    });
+  }
+
   next() {
     const indexes = this.indexes();
     if (indexes.length > 0) {
       const index = sample(indexes);
       const value = sample([2, 2, 4]);
       this.cells[index] = {
-        id: this.step,
+        ids: [this.step],
         value,
+        name: 'tile new',
       };
       this.step += 1;
     }

@@ -30,6 +30,7 @@ class Board extends Component {
           tiles: this.game.tiles(),
         });
         setTimeout(() => {
+          this.game.merge();
           this.game.next();
           this.setState({
             tiles: this.game.tiles(),

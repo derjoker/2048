@@ -75,7 +75,7 @@ class Tile extends Component {
   render() {
     const { tile } = this.props;
     return (
-      <div className="tile" style={this.getStyle(tile)}>
+      <div className={tile.name} style={this.getStyle(tile)}>
         {tile.value}
       </div>
     );
