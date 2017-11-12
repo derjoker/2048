@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { isEqual, mapValues } from 'lodash';
 
 import Grid from './Grid';
 
@@ -25,7 +26,12 @@ class Board extends Component {
       const direction = map[event.keyCode];
       if (direction) {
         event.preventDefault();
+        const oldState = mapValues(this.game.cells, 'value');
         this.game.move(direction);
+        const newState = mapValues(this.game.cells, 'value');
+
+        if (isEqual(oldState, newState)) return;
+
         this.setState({
           tiles: this.game.tiles(),
         });
