@@ -74,12 +74,14 @@ export default class Game {
 
   next() {
     const indexes = this.indexes();
-    const index = sample(indexes);
-    const value = sample([2, 4]);
-    this.cells[index] = {
-      id: this.step,
-      value,
-    };
-    this.step += 1;
+    if (indexes.length > 0) {
+      const index = sample(indexes);
+      const value = sample([2, 2, 4]);
+      this.cells[index] = {
+        id: this.step,
+        value,
+      };
+      this.step += 1;
+    }
   }
 }
